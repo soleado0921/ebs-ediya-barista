@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>EBS 이디야 바리스타</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☕</text></svg>" />
+</head>
+<body>
+  <!-- ───────── 시작 화면 ───────── -->
+  <section id="screen-title" class="screen">
+    <div class="storefront" aria-hidden="true">
+      <div class="sf-building">
+        <div class="sf-floor-sign">EBS 디지털통합사옥 · 1F</div>
+        <div class="sf-windows">
+          <div class="sf-win"></div><div class="sf-win"></div><div class="sf-win"></div><div class="sf-win"></div><div class="sf-win"></div><div class="sf-win"></div>
+        </div>
+      </div>
+      <div class="sf-shop">
+        <div class="sf-fascia"><span class="brand-word">EDIYA COFFEE</span></div>
+        <div class="sf-glass">
+          <div class="sf-light"></div><div class="sf-light"></div><div class="sf-light"></div>
+          <div class="sf-counter"></div>
+          <div class="sf-poster"><span>🐧</span><small>자이언트 펭TV</small></div>
+          <div class="sf-door"><span>PUSH</span></div>
+        </div>
+        <div class="sf-aboard"><b>SEASON</b><span>밤 크림 라떼</span><small>흑임자 크림 라떼</small></div>
+        <div class="sf-plant sf-plant-l"></div><div class="sf-plant sf-plant-r"></div>
+      </div>
+      <div class="sf-ground"></div>
+    </div>
+
+    <div class="title-panel">
+      <p class="eyebrow">EDIYA COFFEE · EBS 1호점</p>
+      <h1>EBS 이디야 바리스타</h1>
+      <p class="lede">EBS 통합사옥 1층 카페의 신입 바리스타가 되었습니다.<br />손님의 말을 알아듣고, 정확하게 만들고, 진상도 슬기롭게 넘겨 보세요.</p>
+
+      <form id="start-form" class="start-form">
+        <label for="player-name">바리스타 이름</label>
+        <div class="start-row">
+          <input id="player-name" maxlength="12" placeholder="예: 김알바" autocomplete="off" required />
+          <button class="btn primary" type="submit">영업 시작</button>
+        </div>
+        <label class="demo-toggle"><input type="checkbox" id="demo-mode" /> 시연 모드 <span class="muted">진상 손님 3명과 EBS 캐릭터가 반드시 등장해요 (강의용)</span></label>
+        <p class="ai-line"><span id="ai-badge-title" class="ai-badge">확인 중…</span></p>
+      </form>
+
+      <ol class="howto">
+        <li><b>듣기</b> 손님이 말로 주문해요. 빠진 정보는 채팅으로 물어보세요.</li>
+        <li><b>만들기</b> 컵(HOT/ICED · L/EX)을 고르고 레시피대로 재료를 넣어요.</li>
+        <li><b>응대</b> 진상 손님은 대화 기록·방문 기록·매장 규정을 근거로 응대해요.</li>
+      </ol>
+
+      <div class="title-grid">
+        <div class="card">
+          <h3>명예의 전당</h3>
+          <ol id="leaderboard-title" class="leaderboard"></ol>
+        </div>
+        <div class="card">
+          <h3>EBS 캐릭터 도감 <small id="dex-count"></small></h3>
+          <div id="dex-title" class="dex"></div>
+          <p class="hint">가끔 EBS 캐릭터가 손님으로 찾아와요.</p>
+        </div>
+      </div>
+      <p class="fineprint">교육용 데모입니다. 레시피·가격·인물은 게임용으로 만든 가상 데이터이며, EBS 캐릭터는 팬 헌정 패러디로 등장합니다.</p>
+    </div>
+  </section>
+
+  <!-- ───────── 게임 화면 ───────── -->
+  <section id="screen-game" class="screen" hidden>
+    <header class="hud">
+      <div class="hud-brand"><span class="brand-word">EDIYA COFFEE</span><small>EBS 1호점</small></div>
+      <div class="hud-center">
+        <span class="chip" id="hud-day">Day 1</span>
+        <span class="chip" id="hud-clock">🕘 08:30</span>
+        <span class="chip" id="hud-count">손님 1/7</span>
+      </div>
+      <div class="hud-right">
+        <span class="stat"><small>매출+팁</small><b id="hud-money">0원</b></span>
+        <span class="stat"><small>점수</small><b id="hud-score">0</b></span>
+        <span id="ai-badge-game" class="ai-badge"></span>
+        <button id="trace-toggle" class="btn ghost small" type="button" aria-pressed="false">AI/DB 보기 <span id="trace-count" class="count">0</span></button>
+      </div>
+    </header>
+
+    <div class="stage" id="stage">
+      <div class="lobby-ceiling"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="lobby-glass"><div class="trees"></div></div>
+      <div class="lobby-wall">
+        <div class="ebs-sign">EBS</div>
+        <div class="ebs-sub">디지털통합사옥</div>
+      </div>
+      <div class="monitor">
+        <div class="monitor-head">TODAY · 사옥 일정</div>
+        <ul id="monitor-list"></ul>
+      </div>
+      <div class="standee"><span>🐧</span><small>펭TV</small></div>
+      <div class="lobby-floor"></div>
+
+      <div class="guest" id="customer">
+        <div class="customer-figure" id="customer-figure"></div>
+        <div class="nametag" id="nametag"></div>
+      </div>
+      <div class="bubble" id="bubble" hidden><p id="bubble-text"></p></div>
+      <div class="alert-flash" id="alert-flash" hidden></div>
+
+      <div class="counter">
+        <div class="counter-top"></div>
+        <div class="counter-front">
+          <div class="pos"><div class="pos-screen" id="pos-screen">POS</div></div>
+          <div class="pickup"><span>PICK UP</span></div>
+        </div>
+      </div>
+      <div class="patience" id="patience" hidden>
+        <span>인내심</span>
+        <div class="bar"><i id="patience-fill"></i></div>
+      </div>
+    </div>
+
+    <main class="work">
+      <aside class="panel chat-panel">
+        <div class="panel-head"><h2>주문 대화</h2><span class="muted" id="q-left">질문 3회 남음</span></div>
+        <div class="chat-log" id="chat-log" aria-live="polite"></div>
+        <div class="quick-qs" id="quick-qs">
+          <button type="button" data-q="온도는 HOT, ICED 중 어떤 걸로 드릴까요?">온도?</button>
+          <button type="button" data-q="사이즈는 L, EX 중 어떤 걸로 드릴까요?">사이즈?</button>
+          <button type="button" data-q="혹시 추가하실 옵션 있으세요?">옵션?</button>
+          <button type="button" data-q="죄송한데 메뉴 이름을 한 번만 다시 말씀해 주시겠어요?">메뉴 다시?</button>
+        </div>
+        <form class="ask-form" id="ask-form">
+          <input id="ask-input" maxlength="200" placeholder="손님에게 물어보기 (예: 아이스로 드릴까요?)" autocomplete="off" />
+          <button class="btn" type="submit">질문</button>
+        </form>
+      </aside>
+
+      <section class="panel bar-panel">
+        <div class="panel-head">
+          <h2>제조대</h2>
+          <span class="muted" id="build-label">컵을 골라 주세요</span>
+        </div>
+        <div class="bar-body">
+          <div class="cup-area">
+            <div class="cup-picker" id="cup-picker"></div>
+            <div class="cup-view" id="cup-view"></div>
+            <div class="bar-actions">
+              <button class="btn ghost" id="btn-undo" type="button">↩ 되돌리기</button>
+              <button class="btn ghost danger" id="btn-discard" type="button">🗑 버리기</button>
+            </div>
+            <button class="btn primary serve" id="btn-serve" type="button">서빙하기 ▶</button>
+          </div>
+          <div class="station" id="station"></div>
+        </div>
+      </section>
+
+      <aside class="panel info-panel">
+        <div class="tabs" role="tablist">
+          <button role="tab" class="tab active" data-tab="menu">메뉴판</button>
+          <button role="tab" class="tab" data-tab="rules">옵션 규칙</button>
+          <button role="tab" class="tab" data-tab="ledger">단골 장부</button>
+          <button role="tab" class="tab" data-tab="policy">매장 규정</button>
+        </div>
+        <div class="tab-body" id="tab-menu"></div>
+        <div class="tab-body" id="tab-rules" hidden></div>
+        <div class="tab-body" id="tab-ledger" hidden></div>
+        <div class="tab-body" id="tab-policy" hidden></div>
+      </aside>
+    </main>
+  </section>
+
+  <!-- ───────── 마감 리포트 ───────── -->
+  <section id="screen-report" class="screen" hidden>
+    <div class="report" id="report"></div>
+  </section>
+
+  <div id="modal-root"></div>
+  <aside id="trace-drawer" class="drawer" hidden>
+    <div class="drawer-head">
+      <div>
+        <h2>AI / DB 보기</h2>
+        <p>정답과 점수는 <span class="tag db">DB·서버</span>가 정하고, <span class="tag ai">AI</span>는 말만 만들어요.</p>
+      </div>
+      <button class="btn ghost small" id="trace-close" type="button">닫기</button>
+    </div>
+    <div class="drawer-body" id="trace-list"></div>
+  </aside>
+  <div id="toast" class="toast" hidden></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
