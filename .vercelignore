@@ -3,3 +3,8 @@ data
 .env
 .env.*
 !.env.example
+.agents
+.claude
+skills-lock.json
+docs
+.playwright-mcp

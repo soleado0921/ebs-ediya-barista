@@ -3,12 +3,27 @@
 EBS 통합사옥 1층 이디야커피(EBS 1호점) 바리스타가 되어, 말로 주문하는 손님(가끔은 진상, 가끔은 EBS 캐릭터)을 응대하고 음료를 만드는 **교육용 데모 게임**입니다.
 기획서는 [PRD.md](PRD.md)에 있습니다.
 
+### 🎮 [바로 플레이하기 → ebs-ediya-barista.vercel.app](https://ebs-ediya-barista.vercel.app)
+
 > 핵심 원칙: **정답은 DB가 정하고, 말은 AI가 한다.**
-> 레시피·주문 정답·채점·진상 응대 등급은 서버 로직(SQLite)이 정하고, 생성형 AI는 손님 대사와 응대 답변의 사실 추출만 맡습니다.
+> 레시피·주문 정답·채점·진상 응대 등급은 서버 로직과 DB가 정하고, 생성형 AI는 손님 대사와 응대 답변의 사실 추출만 맡습니다.
 
-## 실행
+## 스크린샷
 
-Node.js 22.5 이상이 필요합니다 (내장 `node:sqlite` 사용).
+| 시작 화면 | 주문 듣고 음료 만들기 |
+|---|---|
+| ![시작 화면](docs/screenshots/01-start.png) | ![제조 화면](docs/screenshots/02-make.png) |
+| **채점 결과** | **AI/DB 보기** |
+| ![채점 결과](docs/screenshots/03-result.png) | ![AI/DB 보기](docs/screenshots/04-ai-db.png) |
+
+- **시작 화면**: 바리스타 이름을 넣고 영업을 시작합니다. 강의 때는 시연 모드를 켜세요.
+- **주문·제조**: 손님이 말로 주문하면 컵(HOT/ICED · L/EX)을 고르고 재료를 넣습니다. 오른쪽에 메뉴판과 옵션 규칙이 있습니다.
+- **채점 결과**: 서버가 정답 레시피와 내 음료를 항목별로 비교하고, AI 손님이 결과에 맞게 반응합니다.
+- **AI/DB 보기**: 서버가 먼저 정한 정답(DB)과 AI에게 보낸 요청, AI 응답 JSON을 나란히 보여줍니다.
+
+## 로컬 실행
+
+Node.js 22.5 이상이 필요합니다 (내장 `node:sqlite` 사용). 로컬에서는 `data/cafe.db` SQLite 파일에 기록을 저장합니다.
 
 ```bash
 npm install
@@ -31,6 +46,28 @@ OPENAI_API_KEY=sk-...
 | `OPENAI_MODEL` | `gpt-5.4-mini` | 사용할 모델 |
 | `AI_TIMEOUT_MS` | `12000` | 이 시간이 지나면 템플릿 대사로 대체 |
 | `PORT` | `3000` | 서버 포트 |
+| `DATABASE_URL` | 없음 | 있으면 SQLite 대신 Neon Postgres 사용 (배포용) |
+
+> `.env`, `.env.local`은 `.gitignore`에 들어 있어 저장소에 올라가지 않습니다. API 키는 절대 커밋하지 마세요.
+
+## Vercel 배포
+
+Vercel에서는 파일에 쓸 수 없어 SQLite 대신 **Neon Postgres**를 씁니다. `server.js`가 Express 앱을 `export default`하므로 별도 설정 없이 배포됩니다.
+
+1. Vercel 프로젝트에 Neon을 연결합니다. `DATABASE_URL`이 자동으로 등록됩니다.
+   ```bash
+   vercel integration add neon
+   ```
+2. OpenAI 키를 **환경변수**로 등록합니다. 코드나 파일에 넣지 않습니다.
+   ```bash
+   vercel env add OPENAI_API_KEY production --sensitive
+   ```
+3. 배포합니다.
+   ```bash
+   vercel deploy --prod
+   ```
+
+테이블과 기본 데이터(메뉴·손님·규정)는 첫 요청 때 자동으로 만들어집니다.
 
 ## 강의에서 쓰기 좋은 기능
 
@@ -61,13 +98,14 @@ OPENAI_API_KEY=sk-...
 ```
 server.js          Express API
 src/content.js     메뉴·재료·규정·손님·일정 원본 데이터 (부팅 시 DB에 시드)
-src/db.js          SQLite 스키마와 조회 함수 (data/cafe.db)
+src/db.js          DB 스키마와 조회 함수 (로컬 SQLite data/cafe.db / 배포 Neon Postgres)
 src/game.js        주문 생성, 레시피 계산, 채점, 진상 판정 (결정적 로직)
 src/ai.js          OpenAI 호출, 프롬프트, 오프라인 대체 대사
 public/            화면 (HTML/CSS/바닐라 JS)
+docs/screenshots/  README용 스크린샷
 ```
 
-기록을 초기화하려면 서버를 끄고 `data/cafe.db*` 파일을 지우세요.
+로컬 기록을 초기화하려면 서버를 끄고 `data/cafe.db*` 파일을 지우세요.
 
 ## 참고
 
