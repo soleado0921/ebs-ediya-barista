@@ -103,6 +103,7 @@ src/game.js        주문 생성, 레시피 계산, 채점, 진상 판정 (결�
 src/ai.js          OpenAI 호출, 프롬프트, 오프라인 대체 대사
 public/            화면 (HTML/CSS/바닐라 JS)
 docs/screenshots/  README용 스크린샷
+video/             소개 영상 (Remotion) · video/README.md 참고
 ```
 
 로컬 기록을 초기화하려면 서버를 끄고 `data/cafe.db*` 파일을 지우세요.

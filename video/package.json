@@ -1,0 +1,27 @@
+{
+  "name": "ebs-ediya-barista-video",
+  "version": "1.0.0",
+  "private": true,
+  "description": "EBS 이디야 바리스타 소개 영상 (Remotion)",
+  "scripts": {
+    "fonts": "node scripts/fonts.mjs",
+    "record": "node scripts/record.mjs",
+    "studio": "remotion studio",
+    "stills": "node scripts/stills.mjs",
+    "render": "remotion render Intro out/intro.mp4"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.524",
+    "@remotion/transitions": "4.0.524",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "remotion": "4.0.524",
+    "@remotion/bundler": "4.0.524",
+    "@remotion/renderer": "4.0.524"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "playwright-core": "^1.55.0",
+    "typescript": "^5.6.0"
+  }
+}
