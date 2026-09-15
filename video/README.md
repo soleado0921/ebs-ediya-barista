@@ -28,6 +28,11 @@ npm run render    # out/intro.mp4 렌더링
 ```
 
 - `npm run stills -- 300 900`: 지정한 프레임만 PNG로 뽑아 검수합니다 (`out/stills/`).
+- README 상단 GIF(`docs/intro.gif`, 720px · 8fps · 약 9MB)는 렌더링한 mp4를 ffmpeg로 변환해 만듭니다. Remotion에 들어 있는 ffmpeg에는 `fps` 필터가 없어서 일반 ffmpeg를 씁니다.
+  ```bash
+  ffmpeg -i out/intro.mp4 -vf "fps=8,scale=720:-1:flags=lanczos,palettegen=max_colors=128:stats_mode=diff" out/palette.png
+  ffmpeg -i out/intro.mp4 -i out/palette.png -lavfi "fps=8,scale=720:-1:flags=lanczos[x];[x][1:v]paletteuse=dither=bayer:bayer_scale=4:diff_mode=rectangle" ../docs/intro.gif
+  ```
 - 녹화할 때마다 AI 대사가 달라지고, 장면은 `manifest.json`을 읽어 자동으로 구성됩니다 (`src/timeline.ts`).
 - `public/rec/`, `public/fonts/`, `out/`은 용량 때문에 저장소에 올리지 않습니다.
 

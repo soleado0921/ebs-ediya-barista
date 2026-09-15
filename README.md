@@ -1,5 +1,7 @@
 # ☕ EBS 이디야 바리스타
 
+![EBS 이디야 바리스타 소개 영상](docs/intro.gif)
+
 EBS 통합사옥 1층 이디야커피(EBS 1호점) 바리스타가 되어, 말로 주문하는 손님(가끔은 진상, 가끔은 EBS 캐릭터)을 응대하고 음료를 만드는 **교육용 데모 게임**입니다.
 기획서는 [PRD.md](PRD.md)에 있습니다.
 
@@ -102,6 +104,7 @@ src/db.js          DB 스키마와 조회 함수 (로컬 SQLite data/cafe.db / �
 src/game.js        주문 생성, 레시피 계산, 채점, 진상 판정 (결정적 로직)
 src/ai.js          OpenAI 호출, 프롬프트, 오프라인 대체 대사
 public/            화면 (HTML/CSS/바닐라 JS)
+docs/intro.gif     README 상단 소개 영상 (video/ 에서 렌더링한 mp4를 GIF로 변환)
 docs/screenshots/  README용 스크린샷
 video/             소개 영상 (Remotion) · video/README.md 참고
 ```
